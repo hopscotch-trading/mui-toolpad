@@ -11,9 +11,11 @@ import {
   WindowContext,
 } from '../shared/context';
 import { AppThemeProvider } from './AppThemeProvider';
+import { LinkProps } from '../shared/Link';
 
 export interface NavigateOptions {
   history?: 'auto' | 'push' | 'replace';
+  shallow?: boolean;
 }
 
 export interface Navigate {
@@ -27,6 +29,7 @@ export interface Router {
   pathname: string;
   searchParams: URLSearchParams;
   navigate: Navigate;
+  Link?: React.ComponentType<LinkProps>;
 }
 
 export interface Branding {
@@ -43,6 +46,7 @@ export interface NavigationPageItem {
   pattern?: string;
   action?: React.ReactNode;
   children?: Navigation;
+  shallow?: boolean;
 }
 
 export interface NavigationSubheaderItem {
@@ -226,6 +230,7 @@ AppProvider.propTypes /* remove-proptypes */ = {
         kind: PropTypes.oneOf(['page']),
         pattern: PropTypes.string,
         segment: PropTypes.string,
+        shallow: PropTypes.bool,
         title: PropTypes.string,
       }),
       PropTypes.shape({
@@ -242,6 +247,7 @@ AppProvider.propTypes /* remove-proptypes */ = {
    * @default null
    */
   router: PropTypes.shape({
+    Link: PropTypes.func,
     navigate: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
     searchParams: PropTypes.instanceOf(URLSearchParams).isRequired,

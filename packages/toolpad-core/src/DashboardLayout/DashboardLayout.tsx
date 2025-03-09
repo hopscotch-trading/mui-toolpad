@@ -513,6 +513,7 @@ DashboardLayout.propTypes /* remove-proptypes */ = {
         kind: PropTypes.oneOf(['page']),
         pattern: PropTypes.string,
         segment: PropTypes.string,
+        shallow: PropTypes.bool,
         title: PropTypes.string,
       }),
       PropTypes.shape({

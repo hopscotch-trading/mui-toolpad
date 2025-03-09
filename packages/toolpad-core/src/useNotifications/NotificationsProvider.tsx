@@ -1,4 +1,4 @@
-import * as React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Alert,
   Badge,
@@ -10,9 +10,9 @@ import {
   SnackbarContent,
   SnackbarProps,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { useNonNullableContext } from '@toolpad/utils/react';
 import useSlotProps from '@mui/utils/useSlotProps';
+import { useNonNullableContext } from '@toolpad/utils/react';
+import * as React from 'react';
 import { NotificationsContext } from './NotificationsContext';
 import type {
   CloseNotification,
@@ -168,13 +168,13 @@ function NotificationsProvider(props: NotificationsProviderProps) {
   const show = React.useCallback<ShowNotification>((message, options = {}) => {
     const notificationKey = options.key ?? `::toolpad-internal::notification::${generateId()}`;
     setState((prev) => {
-      if (prev.queue.some((n) => n.notificationKey === notificationKey)) {
-        // deduplicate by key
-        return prev;
-      }
+      // deduplicate by replacement
       return {
         ...prev,
-        queue: [...prev.queue, { message, options, notificationKey, open: true }],
+        queue: [
+          ...prev.queue.filter((n) => n.notificationKey !== notificationKey),
+          { message, options, notificationKey, open: true },
+        ],
       };
     });
     return notificationKey;

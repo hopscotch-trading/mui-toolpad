@@ -7,9 +7,10 @@ import { RouterContext } from './context';
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   history?: 'auto' | 'push' | 'replace';
+  shallow?: boolean;
 }
 
-export const Link = React.forwardRef(function Link(
+export const DefaultLink = React.forwardRef(function Link(
   props: LinkProps,
   ref: React.ForwardedRef<HTMLAnchorElement>,
 ) {
@@ -34,3 +35,11 @@ export const Link = React.forwardRef(function Link(
     </a>
   );
 });
+
+export const Link = React.forwardRef(function Link(props: LinkProps, ref: React.ForwardedRef<HTMLAnchorElement>) {
+  const routerContext = React.useContext(RouterContext);
+  const LinkComponent = routerContext?.Link ?? DefaultLink;
+  return <LinkComponent ref={ref} {...props}>
+    {props.children}
+  </LinkComponent>
+})

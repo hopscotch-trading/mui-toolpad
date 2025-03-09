@@ -1,5 +1,6 @@
 'use client';
-import * as React from 'react';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Collapse from '@mui/material/Collapse';
@@ -11,12 +12,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Tooltip from '@mui/material/Tooltip';
-import type {} from '@mui/material/themeCssVarsAugmentation';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import type { } from '@mui/material/themeCssVarsAugmentation';
+import * as React from 'react';
+import type { Navigation } from '../AppProvider';
 import { Link } from '../shared/Link';
 import { RouterContext } from '../shared/context';
-import type { Navigation } from '../AppProvider';
 import {
   getItemTitle,
   getPageItemFullPath,
@@ -186,6 +186,9 @@ function DashboardSidebarSubNavigation({
               px: 1,
               overflowX: 'hidden',
             }}
+            {...navigationItem.action && !isMini && isFullyExpanded && {
+              secondaryAction:  navigationItem.action
+            }}
           >
             <NavigationListItemButton
               selected={isSelected && (!navigationItem.children || isMini)}
@@ -201,6 +204,7 @@ function DashboardSidebarSubNavigation({
                     LinkComponent: Link,
                     href: navigationItemFullPath,
                     onClick: onLinkClick,
+                    shallow: navigationItem.shallow
                   })}
             >
               {navigationItem.icon || isMini ? (
@@ -235,7 +239,6 @@ function DashboardSidebarSubNavigation({
                   zIndex: 1,
                 }}
               />
-              {navigationItem.action && !isMini && isFullyExpanded ? navigationItem.action : null}
               {navigationItem.children && !isMini && isFullyExpanded
                 ? nestedNavigationCollapseIcon
                 : null}

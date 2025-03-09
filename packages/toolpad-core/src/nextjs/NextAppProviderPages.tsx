@@ -1,8 +1,9 @@
-import * as React from 'react';
 import { asArray } from '@toolpad/utils/collections';
 import { useRouter } from 'next/router';
-import { AppProvider } from '../AppProvider';
+import * as React from 'react';
 import type { AppProviderProps, Navigate, Router } from '../AppProvider';
+import { AppProvider } from '../AppProvider';
+import { NextLink } from './NextLink';
 
 /**
  * @ignore - internal component.
@@ -24,12 +25,12 @@ export function NextAppProviderPages(props: AppProviderProps) {
   const searchParams = React.useMemo(() => new URLSearchParams(search), [search]);
 
   const navigate = React.useCallback<Navigate>(
-    (url, { history = 'auto' } = {}) => {
+    (url, { history = 'auto', shallow } = {}) => {
       if (history === 'auto' || history === 'push') {
-        return push(String(url));
+        return push(String(url), undefined, {shallow});
       }
       if (history === 'replace') {
-        return replace(String(url));
+        return replace(String(url), undefined, {shallow});
       }
       throw new Error(`Invalid history option: ${history}`);
     },
@@ -38,9 +39,10 @@ export function NextAppProviderPages(props: AppProviderProps) {
 
   const routerImpl = React.useMemo<Router>(
     () => ({
-      pathname: asPath,
+      pathname: asPath?.split('?')[0],
       searchParams,
       navigate,
+      Link: NextLink
     }),
     [asPath, navigate, searchParams],
   );

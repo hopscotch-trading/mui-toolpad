@@ -1,7 +1,8 @@
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { AppProvider } from '../AppProvider';
 import type { AppProviderProps, Navigate, Router } from '../AppProvider';
+import { AppProvider } from '../AppProvider';
+import { NextLink } from './NextLink';
 
 /**
  * @ignore - internal component.
@@ -26,9 +27,10 @@ export function NextAppProviderApp(props: AppProviderProps) {
 
   const routerImpl = React.useMemo<Router>(
     () => ({
-      pathname,
+      pathname: pathname.split('?')[0],
       searchParams,
       navigate,
+      Link: NextLink
     }),
     [pathname, navigate, searchParams],
   );

@@ -1,16 +1,18 @@
-import { LoadingButton } from '@mui/lab';
 import {
+  Button,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
-  TextField,
+  DialogContent,
   DialogContentText,
+  DialogTitle,
+  TextField,
+  type DialogProps as DialogOwnProps,
 } from '@mui/material';
 import { useNonNullableContext } from '@toolpad/utils/react';
 import invariant from 'invariant';
 import * as React from 'react';
 import { DialogsContext } from './DialogsContext';
+import { DialogProviderSlotProps } from './DialogsProvider';
 
 export interface OpenDialogOptions<R> {
   /**
@@ -22,6 +24,7 @@ export interface OpenDialogOptions<R> {
    * @returns A promise that resolves when the dialog can be closed.
    */
   onClose?: (result: R) => Promise<void>;
+  slotProps?: Partial<DialogProviderSlotProps>;
 }
 
 export interface AlertOptions extends OpenDialogOptions<void> {
@@ -73,7 +76,8 @@ export interface PromptOptions extends OpenDialogOptions<string | null> {
 /**
  * The props that are passed to a dialog component.
  */
-export interface DialogProps<P = undefined, R = void> {
+export interface DialogProps<P = undefined, R = void>
+  extends Partial<Omit<DialogOwnProps, 'open' | 'onClose'>> {
   /**
    * The payload that was passed when the dialog was opened.
    */
@@ -198,9 +202,9 @@ export function AlertDialog({ open, payload, onClose }: AlertDialogProps) {
       <DialogTitle>{payload.title ?? 'Alert'}</DialogTitle>
       <DialogContent>{payload.msg}</DialogContent>
       <DialogActions>
-        <LoadingButton disabled={!open} {...okButtonProps}>
+        <Button disabled={!open} {...okButtonProps}>
           {payload.okText ?? 'Ok'}
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );
@@ -220,12 +224,12 @@ export function ConfirmDialog({ open, payload, onClose }: ConfirmDialogProps) {
       <DialogTitle>{payload.title ?? 'Confirm'}</DialogTitle>
       <DialogContent>{payload.msg}</DialogContent>
       <DialogActions>
-        <LoadingButton autoFocus disabled={!open} {...cancelButtonProps}>
+        <Button autoFocus disabled={!open} {...cancelButtonProps}>
           {payload.cancelText ?? 'Cancel'}
-        </LoadingButton>
-        <LoadingButton color={payload.severity} disabled={!open} {...okButtonProps}>
+        </Button>
+        <Button color={payload.severity} disabled={!open} {...okButtonProps}>
           {payload.okText ?? 'Ok'}
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );
@@ -283,12 +287,12 @@ export function PromptDialog({ open, payload, onClose }: PromptDialogProps) {
         />
       </DialogContent>
       <DialogActions>
-        <LoadingButton disabled={!open} {...cancelButtonProps}>
+        <Button disabled={!open} {...cancelButtonProps}>
           {payload.cancelText ?? 'Cancel'}
-        </LoadingButton>
-        <LoadingButton disabled={!open} loading={loading} type="submit">
+        </Button>
+        <Button disabled={!open} loading={loading} type="submit">
           {payload.okText ?? 'Ok'}
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );

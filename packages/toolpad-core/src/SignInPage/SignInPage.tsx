@@ -1,42 +1,42 @@
 'use client';
 
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import AppleIcon from '@mui/icons-material/Apple';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import PasswordIcon from '@mui/icons-material/Password';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import Button, { ButtonProps } from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import { LinkProps } from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import { alpha, SxProps, useTheme, type Theme } from '@mui/material/styles';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import LoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import PasswordIcon from '@mui/icons-material/Password';
-import FingerprintIcon from '@mui/icons-material/Fingerprint';
-import AppleIcon from '@mui/icons-material/Apple';
-import { alpha, useTheme, SxProps, type Theme } from '@mui/material/styles';
-import { LinkProps } from '@mui/material/Link';
-import GoogleIcon from './icons/Google';
+import PropTypes from 'prop-types';
+import * as React from 'react';
+import { BrandingContext, RouterContext } from '../shared/context';
+import Auth0Icon from './icons/Auth0';
+import CognitoIcon from './icons/Cognito';
+import DiscordIcon from './icons/Discord';
 import FacebookIcon from './icons/Facebook';
-import TwitterIcon from './icons/Twitter';
+import FusionAuthIcon from './icons/FusionAuth';
+import GitLabIcon from './icons/GitLab';
+import GoogleIcon from './icons/Google';
 import InstagramIcon from './icons/Instagram';
-import TikTokIcon from './icons/TikTok';
+import KeycloakIcon from './icons/Keycloak';
+import LineIcon from './icons/Line';
 import LinkedInIcon from './icons/LinkedIn';
+import MicrosoftEntraIdIcon from './icons/MicrosoftEntra';
+import OktaIcon from './icons/Okta';
 import SlackIcon from './icons/Slack';
 import SpotifyIcon from './icons/Spotify';
+import TikTokIcon from './icons/TikTok';
 import TwitchIcon from './icons/Twitch';
-import DiscordIcon from './icons/Discord';
-import LineIcon from './icons/Line';
-import Auth0Icon from './icons/Auth0';
-import MicrosoftEntraIdIcon from './icons/MicrosoftEntra';
-import CognitoIcon from './icons/Cognito';
-import GitLabIcon from './icons/GitLab';
-import KeycloakIcon from './icons/Keycloak';
-import OktaIcon from './icons/Okta';
-import FusionAuthIcon from './icons/FusionAuth';
-import { BrandingContext, RouterContext } from '../shared/context';
+import TwitterIcon from './icons/Twitter';
 
 const mergeSlotSx = (defaultSx: SxProps<Theme>, slotProps?: { sx?: SxProps<Theme> }) => {
   if (Array.isArray(slotProps?.sx)) {
@@ -185,9 +185,9 @@ export interface SignInPageSlots {
   passwordField?: React.JSXElementConstructor<TextFieldProps>;
   /**
    * The custom submit button component used in the credentials form.
-   * @default LoadingButton
+   * @default Button
    */
-  submitButton?: React.JSXElementConstructor<LoadingButtonProps>;
+  submitButton?: React.JSXElementConstructor<ButtonProps>;
   /**
    * The custom forgot password link component used in the credentials form.
    * @default Link
@@ -251,7 +251,7 @@ export interface SignInPageProps {
   slotProps?: {
     emailField?: TextFieldProps;
     passwordField?: TextFieldProps;
-    submitButton?: LoadingButtonProps;
+    submitButton?: ButtonProps;
     forgotPasswordLink?: LinkProps;
     signUpLink?: LinkProps;
     rememberMe?: Partial<FormControlLabelProps>;
@@ -375,7 +375,7 @@ function SignInPage(props: SignInPageProps) {
                         }));
                       }}
                     >
-                      <LoadingButton
+                      <Button
                         key={provider.id}
                         variant="outlined"
                         type="submit"
@@ -392,7 +392,7 @@ function SignInPage(props: SignInPageProps) {
                         }}
                       >
                         <span>Sign in with {provider.name}</span>
-                      </LoadingButton>
+                      </Button>
                     </form>
                   );
                 })}
@@ -443,7 +443,7 @@ function SignInPage(props: SignInPageProps) {
                   {slots?.submitButton ? (
                     <slots.submitButton {...slotProps?.submitButton} />
                   ) : (
-                    <LoadingButton
+                    <Button
                       type="submit"
                       fullWidth
                       size="large"
@@ -460,7 +460,7 @@ function SignInPage(props: SignInPageProps) {
                       {...slotProps?.submitButton}
                     >
                       Sign in with {passkeyProvider.name || 'Passkey'}
-                    </LoadingButton>
+                    </Button>
                   )}
                 </Box>
               </React.Fragment>
@@ -517,7 +517,7 @@ function SignInPage(props: SignInPageProps) {
                   {slots?.submitButton ? (
                     <slots.submitButton {...slotProps?.submitButton} />
                   ) : (
-                    <LoadingButton
+                    <Button
                       type="submit"
                       fullWidth
                       size="large"
@@ -534,7 +534,7 @@ function SignInPage(props: SignInPageProps) {
                       {...slotProps?.submitButton}
                     >
                       Sign in with Email
-                    </LoadingButton>
+                    </Button>
                   )}
                 </Box>
               </React.Fragment>
@@ -642,7 +642,7 @@ function SignInPage(props: SignInPageProps) {
                   {slots?.submitButton ? (
                     <slots.submitButton {...slotProps?.submitButton} />
                   ) : (
-                    <LoadingButton
+                    <Button
                       type="submit"
                       fullWidth
                       size="large"
@@ -658,7 +658,7 @@ function SignInPage(props: SignInPageProps) {
                       {...slotProps?.submitButton}
                     >
                       Sign in
-                    </LoadingButton>
+                    </Button>
                   )}
 
                   {slots?.signUpLink ? (
