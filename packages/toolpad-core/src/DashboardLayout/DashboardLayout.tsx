@@ -1,25 +1,25 @@
 'use client';
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { styled, useTheme, SxProps } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import { styled, SxProps, useTheme } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import type {} from '@mui/material/themeCssVarsAugmentation';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import { BrandingContext, NavigationContext, WindowContext } from '../shared/context';
+import PropTypes from 'prop-types';
+import * as React from 'react';
 import { Account, type AccountProps } from '../Account';
+import type { Branding, Navigation } from '../AppProvider';
+import { BrandingContext, NavigationContext, WindowContext } from '../shared/context';
+import { AppTitle, AppTitleProps } from './AppTitle';
 import { DashboardSidebarSubNavigation } from './DashboardSidebarSubNavigation';
 import { ToolbarActions } from './ToolbarActions';
-import { AppTitle, AppTitleProps } from './AppTitle';
 import { getDrawerSxTransitionMixin, getDrawerWidthTransitionMixin } from './utils';
-import type { Branding, Navigation } from '../AppProvider';
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   borderWidth: 0,
@@ -350,7 +350,7 @@ function DashboardLayout(props: DashboardLayoutProps) {
                 <React.Fragment>
                   <Box
                     sx={{
-                      mr: { sm: disableCollapsibleSidebar ? 0 : 1 },
+                      mr: 1,
                       display: { md: 'none' },
                     }}
                   >
@@ -359,7 +359,7 @@ function DashboardLayout(props: DashboardLayoutProps) {
                   <Box
                     sx={{
                       display: { xs: 'none', md: disableCollapsibleSidebar ? 'none' : 'block' },
-                      mr: disableCollapsibleSidebar ? 0 : 1,
+                      mr: 1,
                     }}
                   >
                     {getMenuIcon(isDesktopNavigationExpanded)}
