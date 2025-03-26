@@ -268,7 +268,7 @@ function DashboardLayout(props: DashboardLayoutProps) {
             flexDirection: 'column',
             justifyContent: 'space-between',
             overflow: 'auto',
-            pt: navigation[0]?.kind === 'header' && !isMini ? 0 : 2,
+            pt: navigation[0]?.kind === 'header' && !isMini ? 0 : 1,
             ...(hasDrawerTransitions
               ? getDrawerSxTransitionMixin(isNavigationFullyExpanded, 'padding')
               : {}),
