@@ -12,7 +12,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Tooltip from '@mui/material/Tooltip';
-import type { } from '@mui/material/themeCssVarsAugmentation';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 import * as React from 'react';
 import type { Navigation } from '../AppProvider';
 import { Link } from '../shared/Link';
@@ -185,10 +185,16 @@ function DashboardSidebarSubNavigation({
               py: 0,
               px: 1,
               overflowX: 'hidden',
+              ...(isNestedNavigationExpanded && {
+                outline: 1,
+                outlineColor: 'divider',
+              }),
             }}
-            {...navigationItem.action && !isMini && isFullyExpanded && {
-              secondaryAction:  navigationItem.action
-            }}
+            {...(navigationItem.action &&
+              !isMini &&
+              isFullyExpanded && {
+                secondaryAction: navigationItem.action,
+              })}
           >
             <NavigationListItemButton
               selected={isSelected && (!navigationItem.children || isMini)}
@@ -204,7 +210,7 @@ function DashboardSidebarSubNavigation({
                     LinkComponent: Link,
                     href: navigationItemFullPath,
                     onClick: onLinkClick,
-                    shallow: navigationItem.shallow
+                    shallow: navigationItem.shallow,
                   })}
             >
               {navigationItem.icon || isMini ? (
