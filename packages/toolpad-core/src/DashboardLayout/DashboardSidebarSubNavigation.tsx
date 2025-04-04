@@ -197,9 +197,11 @@ function DashboardSidebarSubNavigation({
               sx={{
                 px: 1.4,
                 height: 48,
+                border: 1,
+                borderColor: 'transparent',
                 ...(isNestedNavigationExpanded && {
-                  outline: 1,
-                  outlineColor: 'divider',
+                  border: 1,
+                  borderColor: 'divider',
                 }),
               }}
               {...(navigationItem.children && !isMini
