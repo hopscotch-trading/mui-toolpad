@@ -185,10 +185,6 @@ function DashboardSidebarSubNavigation({
               py: 0,
               px: 1,
               overflowX: 'hidden',
-              ...(isNestedNavigationExpanded && {
-                outline: 1,
-                outlineColor: 'divider',
-              }),
             }}
             {...(navigationItem.action &&
               !isMini &&
@@ -201,6 +197,10 @@ function DashboardSidebarSubNavigation({
               sx={{
                 px: 1.4,
                 height: 48,
+                ...(isNestedNavigationExpanded && {
+                  outline: 1,
+                  outlineColor: 'divider',
+                }),
               }}
               {...(navigationItem.children && !isMini
                 ? {
