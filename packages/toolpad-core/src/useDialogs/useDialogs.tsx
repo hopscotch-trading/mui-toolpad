@@ -224,7 +224,7 @@ export function ConfirmDialog({ open, payload, onClose }: ConfirmDialogProps) {
       <DialogTitle>{payload.title ?? 'Confirm'}</DialogTitle>
       <DialogContent>{payload.msg}</DialogContent>
       <DialogActions>
-        <Button autoFocus disabled={!open} {...cancelButtonProps}>
+        <Button autoFocus color="inherit" disabled={!open} {...cancelButtonProps}>
           {payload.cancelText ?? 'Cancel'}
         </Button>
         <Button color={payload.severity} disabled={!open} {...okButtonProps}>
