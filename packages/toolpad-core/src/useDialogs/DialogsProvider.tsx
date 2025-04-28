@@ -2,7 +2,7 @@ import { useEventCallback, type DialogProps as DialogOwnProps } from '@mui/mater
 import invariant from 'invariant';
 import * as React from 'react';
 import { DialogsContext } from './DialogsContext';
-import type { DialogComponent, OpenDialog, OpenDialogOptions } from './useDialogs';
+import type { DialogComponent, OpenDialog, OpenDialogOptions, Translations } from './useDialogs';
 
 interface DialogStackEntry<P, R> {
   key: string;
@@ -13,6 +13,7 @@ interface DialogStackEntry<P, R> {
   onClose: (result: R) => Promise<void>;
   resolve: (result: R) => void;
   props?: Partial<DialogOwnProps>;
+  translations?: Translations;
 }
 
 export interface DialogProviderSlotProps {
@@ -23,6 +24,7 @@ export interface DialogProviderProps {
   children?: React.ReactNode;
   unmountAfter?: number;
   slotProps?: Partial<DialogProviderSlotProps>;
+  translations?: Translations;
 }
 
 /**
@@ -38,7 +40,7 @@ export interface DialogProviderProps {
  * - [DialogsProvider API](https://mui.com/toolpad/core/api/dialogs-provider)
  */
 function DialogsProvider(props: DialogProviderProps) {
-  const { children, unmountAfter = 1000, slotProps } = props;
+  const { children, unmountAfter = 1000, slotProps, translations } = props;
   const [stack, setStack] = React.useState<DialogStackEntry<any, any>[]>([]);
   const keyPrefix = React.useId();
   const nextId = React.useRef(0);
@@ -68,12 +70,13 @@ function DialogsProvider(props: DialogProviderProps) {
         onClose,
         resolve,
         props: { ...slotProps?.dialog, ...dialog },
+        translations,
       };
 
       setStack((prevStack) => [...prevStack, newEntry]);
       return promise;
     },
-    [keyPrefix, slotProps?.dialog],
+    [keyPrefix, slotProps?.dialog, translations],
   );
 
   const closeDialogUi = useEventCallback(function closeDialogUi<R>(dialog: Promise<R>) {
@@ -107,7 +110,7 @@ function DialogsProvider(props: DialogProviderProps) {
     <DialogsContext.Provider value={contextValue}>
       {children}
       {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-      {stack.map(({ key, open, Component, payload, promise, props }) => (
+      {stack.map(({ key, open, Component, payload, promise, props, translations }) => (
         <Component
           key={key}
           payload={payload}
@@ -116,6 +119,7 @@ function DialogsProvider(props: DialogProviderProps) {
           onClose={async (result) => {
             await closeDialog(promise, result);
           }}
+          translations={translations}
         />
       ))}
     </DialogsContext.Provider>

@@ -14,6 +14,20 @@ import * as React from 'react';
 import { DialogsContext } from './DialogsContext';
 import { DialogProviderSlotProps } from './DialogsProvider';
 
+export interface Translations {
+  cancelText?: React.ReactNode;
+  okText?: React.ReactNode;
+  alert?: {
+    title?: React.ReactNode;
+  };
+  confirm?: {
+    title?: React.ReactNode;
+  };
+  prompt?: {
+    title?: React.ReactNode;
+  };
+}
+
 export interface OpenDialogOptions<R> {
   /**
    * A function that is called before closing the dialog closes. The dialog
@@ -95,6 +109,7 @@ export interface DialogProps<P = undefined, R = void>
    * @returns A promise that resolves when the dialog can be fully closed.
    */
   onClose: (result: R) => Promise<void>;
+  translations?: Translations;
 }
 
 export interface OpenAlertDialog {
@@ -195,15 +210,15 @@ export interface AlertDialogPayload extends AlertOptions {
 
 export interface AlertDialogProps extends DialogProps<AlertDialogPayload, void> {}
 
-export function AlertDialog({ open, payload, onClose }: AlertDialogProps) {
+export function AlertDialog({ open, payload, onClose, translations }: AlertDialogProps) {
   const okButtonProps = useDialogLoadingButton(() => onClose());
   return (
     <Dialog maxWidth="xs" fullWidth open={open} onClose={() => onClose()}>
-      <DialogTitle>{payload.title ?? 'Alert'}</DialogTitle>
+      <DialogTitle>{payload.title ?? translations?.alert?.title ?? 'Alert'}</DialogTitle>
       <DialogContent>{payload.msg}</DialogContent>
       <DialogActions>
         <Button disabled={!open} {...okButtonProps}>
-          {payload.okText ?? 'Ok'}
+          {payload.okText ?? translations?.okText ?? 'Ok'}
         </Button>
       </DialogActions>
     </Dialog>
@@ -216,19 +231,19 @@ export interface ConfirmDialogPayload extends ConfirmOptions {
 
 export interface ConfirmDialogProps extends DialogProps<ConfirmDialogPayload, boolean> {}
 
-export function ConfirmDialog({ open, payload, onClose }: ConfirmDialogProps) {
+export function ConfirmDialog({ open, payload, onClose, translations }: ConfirmDialogProps) {
   const cancelButtonProps = useDialogLoadingButton(() => onClose(false));
   const okButtonProps = useDialogLoadingButton(() => onClose(true));
   return (
     <Dialog maxWidth="xs" fullWidth open={open} onClose={() => onClose(false)}>
-      <DialogTitle>{payload.title ?? 'Confirm'}</DialogTitle>
+      <DialogTitle>{payload.title ?? translations?.confirm?.title ?? 'Confirm'}</DialogTitle>
       <DialogContent>{payload.msg}</DialogContent>
       <DialogActions>
         <Button autoFocus color="inherit" disabled={!open} {...cancelButtonProps}>
-          {payload.cancelText ?? 'Cancel'}
+          {payload.cancelText ?? translations?.cancelText ?? 'Cancel'}
         </Button>
         <Button color={payload.severity} disabled={!open} {...okButtonProps}>
-          {payload.okText ?? 'Ok'}
+          {payload.okText ?? translations?.okText ?? 'Ok'}
         </Button>
       </DialogActions>
     </Dialog>
@@ -241,7 +256,7 @@ export interface PromptDialogPayload extends PromptOptions {
 
 export interface PromptDialogProps extends DialogProps<PromptDialogPayload, string | null> {}
 
-export function PromptDialog({ open, payload, onClose }: PromptDialogProps) {
+export function PromptDialog({ open, payload, onClose, translations }: PromptDialogProps) {
   const [input, setInput] = React.useState('');
   const cancelButtonProps = useDialogLoadingButton(() => onClose(null));
 
@@ -270,7 +285,7 @@ export function PromptDialog({ open, payload, onClose }: PromptDialogProps) {
         },
       }}
     >
-      <DialogTitle>{payload.title ?? 'Confirm'}</DialogTitle>
+      <DialogTitle>{payload.title ?? translations?.prompt?.title ?? 'Confirm'}</DialogTitle>
       <DialogContent>
         <DialogContentText>{payload.msg} </DialogContentText>
         <TextField
@@ -288,10 +303,10 @@ export function PromptDialog({ open, payload, onClose }: PromptDialogProps) {
       </DialogContent>
       <DialogActions>
         <Button disabled={!open} {...cancelButtonProps}>
-          {payload.cancelText ?? 'Cancel'}
+          {payload.cancelText ?? translations?.cancelText ?? 'Cancel'}
         </Button>
         <Button disabled={!open} loading={loading} type="submit">
-          {payload.okText ?? 'Ok'}
+          {payload.okText ?? translations?.okText ?? 'Ok'}
         </Button>
       </DialogActions>
     </Dialog>
