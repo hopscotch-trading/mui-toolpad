@@ -210,6 +210,10 @@ function DashboardLayout(props: DashboardLayoutProps) {
     setIsNavigationExpanded(!isNavigationExpanded);
   }, [isNavigationExpanded, setIsNavigationExpanded]);
 
+  const expandNavigation = React.useCallback(() => {
+    setIsNavigationExpanded(true);
+  }, [setIsNavigationExpanded]);
+
   const handleNavigationLinkClick = React.useCallback(() => {
     selectedItemIdRef.current = '';
     setIsMobileNavigationExpanded(false);
@@ -281,6 +285,7 @@ function DashboardLayout(props: DashboardLayoutProps) {
             isFullyExpanded={isNavigationFullyExpanded}
             hasDrawerTransitions={hasDrawerTransitions}
             selectedItemId={selectedItemIdRef.current}
+            expandNavigation={expandNavigation}
           />
           {SidebarFooterSlot ? (
             <SidebarFooterSlot mini={isMini} {...slotProps?.sidebarFooter} />
@@ -290,6 +295,7 @@ function DashboardLayout(props: DashboardLayoutProps) {
     ),
     [
       SidebarFooterSlot,
+      expandNavigation,
       handleNavigationLinkClick,
       hasDrawerTransitions,
       isNavigationFullyExpanded,

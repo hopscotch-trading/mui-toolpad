@@ -61,6 +61,7 @@ interface DashboardSidebarSubNavigationProps {
   isFullyExpanded?: boolean;
   hasDrawerTransitions?: boolean;
   selectedItemId: string;
+  expandNavigation: () => void;
 }
 
 /**
@@ -75,6 +76,7 @@ function DashboardSidebarSubNavigation({
   isFullyExpanded = true,
   hasDrawerTransitions = false,
   selectedItemId,
+  expandNavigation,
 }: DashboardSidebarSubNavigationProps) {
   const routerContext = React.useContext(RouterContext);
 
@@ -211,7 +213,12 @@ function DashboardSidebarSubNavigation({
                 : {
                     LinkComponent: Link,
                     href: navigationItemFullPath,
-                    onClick: onLinkClick,
+                    onClick: () => {
+                      if (isMini) {
+                        expandNavigation();
+                      }
+                      onLinkClick();
+                    },
                     shallow: navigationItem.shallow,
                   })}
             >
@@ -272,6 +279,7 @@ function DashboardSidebarSubNavigation({
                   depth={depth + 1}
                   onLinkClick={onLinkClick}
                   selectedItemId={selectedItemId}
+                  expandNavigation={expandNavigation}
                 />
               </Collapse>
             ) : null}
