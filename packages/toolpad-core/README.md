@@ -2,6 +2,14 @@
 
 Forked from `@mui/toolpad`.
 
+## Installation
+
+With GitHub token valid for repository packages, run
+
+```
+yarn add @hopscotch-trading/mui-toolpad
+```
+
 ## Internal release
 
 After code changes,
