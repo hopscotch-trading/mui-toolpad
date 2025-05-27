@@ -214,7 +214,7 @@ function DashboardSidebarSubNavigation({
                     LinkComponent: Link,
                     href: navigationItemFullPath,
                     onClick: () => {
-                      if (isMini) {
+                      if (isMini && navigationItem.children) {
                         expandNavigation();
                       }
                       onLinkClick();

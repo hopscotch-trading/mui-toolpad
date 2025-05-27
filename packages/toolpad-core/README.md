@@ -1,20 +1,10 @@
-<!-- markdownlint-disable-next-line -->
-<p align="center">
-  <a href="https://mui.com/toolpad/" rel="noopener" target="_blank"><img width="150" src="https://mui.com/static/branding/product-toolpad-light.svg" alt="Toolpad logo"></a>
-</p>
+# Hopscotch @mui/toolpad
 
-<h1 align="center">Toolpad Core</h1>
+Forked from `@mui/toolpad`.
 
-Toolpad Core is a set of full-stack components for building dashboards, internal tools, and B2B web applications with React. It is built on top of Next.js and offers a suite of components such as layout, navigation, authentication, and data management interfaces to help you build scalable dashboards fast.
+## Internal release
 
-## Installation
+After code changes,
 
-Install the package in your project directory with:
-
-```bash
-npm install @toolpad/core
-```
-
-## Documentation
-
-[The documentation](./docs)
+- increase package version number in `packages/toolpad-core/package.json`
+- inside `packages/toolpad-core` run `pnpm release:publish`
