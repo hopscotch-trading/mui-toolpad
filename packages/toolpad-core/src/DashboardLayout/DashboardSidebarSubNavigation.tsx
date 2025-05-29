@@ -107,8 +107,12 @@ function DashboardSidebarSubNavigation({
           ? previousValue.filter((previousValueItemId) => previousValueItemId !== itemId)
           : [...previousValue, itemId],
       );
+      if (isMini) {
+        expandNavigation();
+        document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth' });
+      }
     },
-    [],
+    [expandNavigation, isMini],
   );
 
   return (
@@ -195,6 +199,7 @@ function DashboardSidebarSubNavigation({
               })}
           >
             <NavigationListItemButton
+              id={navigationItemId}
               selected={isSelected && (!navigationItem.children || isMini)}
               sx={{
                 px: 1.4,
@@ -202,23 +207,17 @@ function DashboardSidebarSubNavigation({
                 border: 1,
                 borderColor: 'transparent',
                 ...(isNestedNavigationExpanded && {
-                  border: 1,
-                  borderColor: 'divider',
+                  bgcolor: 'action.hover',
                 }),
               }}
-              {...(navigationItem.children && !isMini
+              {...(navigationItem.children
                 ? {
                     onClick: handleOpenFolderClick(navigationItemId),
                   }
                 : {
                     LinkComponent: Link,
                     href: navigationItemFullPath,
-                    onClick: () => {
-                      if (isMini && navigationItem.children) {
-                        expandNavigation();
-                      }
-                      onLinkClick();
-                    },
+                    onClick: onLinkClick,
                     shallow: navigationItem.shallow,
                   })}
             >
