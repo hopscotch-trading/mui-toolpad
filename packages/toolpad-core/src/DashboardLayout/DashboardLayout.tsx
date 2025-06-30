@@ -1,7 +1,7 @@
 'use client';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import { styled, SxProps, useTheme } from '@mui/material';
+import { ClickAwayListener, styled, SxProps, useTheme } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -32,6 +32,7 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
 
 export interface SidebarFooterProps {
   mini: boolean;
+  handleSetNavigationExpanded: (expanded: boolean) => void;
 }
 
 export interface DashboardLayoutSlotProps {
@@ -263,40 +264,48 @@ function DashboardLayout(props: DashboardLayoutProps) {
     (isMini: boolean, viewport: 'phone' | 'tablet' | 'desktop') => (
       <React.Fragment>
         <Toolbar />
-        <Box
-          component="nav"
-          aria-label={`${viewport.charAt(0).toUpperCase()}${viewport.slice(1)}`}
-          sx={{
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            overflow: 'auto',
-            pt: navigation[0]?.kind === 'header' && !isMini ? 0 : 1,
-            ...(hasDrawerTransitions
-              ? getDrawerSxTransitionMixin(isNavigationFullyExpanded, 'padding')
-              : {}),
-          }}
-        >
-          <DashboardSidebarSubNavigation
-            subNavigation={navigation}
-            onLinkClick={handleNavigationLinkClick}
-            isMini={isMini}
-            isFullyExpanded={isNavigationFullyExpanded}
-            hasDrawerTransitions={hasDrawerTransitions}
-            selectedItemId={selectedItemIdRef.current}
-            expandNavigation={expandNavigation}
-          />
-          {SidebarFooterSlot ? (
-            <SidebarFooterSlot mini={isMini} {...slotProps?.sidebarFooter} />
-          ) : null}
-        </Box>
+
+        <ClickAwayListener onClickAway={() => handleSetNavigationExpanded(false)}>
+          <Box
+            component="nav"
+            aria-label={`${viewport.charAt(0).toUpperCase()}${viewport.slice(1)}`}
+            sx={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              overflow: 'auto',
+              pt: navigation[0]?.kind === 'header' && !isMini ? 0 : 1,
+              ...(hasDrawerTransitions
+                ? getDrawerSxTransitionMixin(isNavigationFullyExpanded, 'padding')
+                : {}),
+            }}
+          >
+            <DashboardSidebarSubNavigation
+              subNavigation={navigation}
+              onLinkClick={handleNavigationLinkClick}
+              isMini={isMini}
+              isFullyExpanded={isNavigationFullyExpanded}
+              hasDrawerTransitions={hasDrawerTransitions}
+              selectedItemId={selectedItemIdRef.current}
+              expandNavigation={expandNavigation}
+            />
+            {SidebarFooterSlot ? (
+              <SidebarFooterSlot
+                mini={isMini}
+                handleSetNavigationExpanded={handleSetNavigationExpanded}
+                {...slotProps?.sidebarFooter}
+              />
+            ) : null}
+          </Box>
+        </ClickAwayListener>
       </React.Fragment>
     ),
     [
       SidebarFooterSlot,
       expandNavigation,
       handleNavigationLinkClick,
+      handleSetNavigationExpanded,
       hasDrawerTransitions,
       isNavigationFullyExpanded,
       navigation,
@@ -549,6 +558,7 @@ DashboardLayout.propTypes /* remove-proptypes */ = {
       }),
     }),
     sidebarFooter: PropTypes.shape({
+      handleSetNavigationExpanded: PropTypes.func.isRequired,
       mini: PropTypes.bool.isRequired,
     }),
     toolbarAccount: PropTypes.shape({
