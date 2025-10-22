@@ -162,7 +162,7 @@ function AppProvider(props: AppProviderProps) {
       <AuthenticationContext.Provider value={authentication}>
         <SessionContext.Provider value={session}>
           <RouterContext.Provider value={router}>
-            <AppThemeProvider theme={theme} window={appWindow}>
+            {/* <AppThemeProvider theme={theme} window={appWindow}> */}
               <NotificationsProvider>
                 <DialogsProvider>
                   <BrandingContext.Provider value={branding}>
@@ -172,7 +172,7 @@ function AppProvider(props: AppProviderProps) {
                   </BrandingContext.Provider>
                 </DialogsProvider>
               </NotificationsProvider>
-            </AppThemeProvider>
+            {/* </AppThemeProvider> */}
           </RouterContext.Provider>
         </SessionContext.Provider>
       </AuthenticationContext.Provider>

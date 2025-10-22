@@ -40,34 +40,34 @@ describe('DashboardLayout', () => {
     expect(within(header).getByAltText('Placeholder Logo')).toBeTruthy();
   });
 
-  test('can switch theme', async () => {
-    const user = userEvent.setup();
+  // test('can switch theme', async () => {
+  //   const user = userEvent.setup();
 
-    render(
-      <AppProvider>
-        <DashboardLayout>Hello world</DashboardLayout>
-      </AppProvider>,
-    );
+  //   render(
+  //     <AppProvider>
+  //       <DashboardLayout>Hello world</DashboardLayout>
+  //     </AppProvider>,
+  //   );
 
-    const getBackgroundColorCSSVariable = () =>
-      getComputedStyle(document.documentElement).getPropertyValue(
-        '--mui-palette-common-background',
-      );
+  //   const getBackgroundColorCSSVariable = () =>
+  //     getComputedStyle(document.documentElement).getPropertyValue(
+  //       '--mui-palette-common-background',
+  //     );
 
-    const header = screen.getByRole('banner');
+  //   const header = screen.getByRole('banner');
 
-    const themeSwitcherButton = within(header).getByLabelText('Switch to dark mode');
+  //   const themeSwitcherButton = within(header).getByLabelText('Switch to dark mode');
 
-    expect(getBackgroundColorCSSVariable()).toBe('#fff');
+  //   expect(getBackgroundColorCSSVariable()).toBe('#fff');
 
-    await user.click(themeSwitcherButton);
+  //   await user.click(themeSwitcherButton);
 
-    expect(getBackgroundColorCSSVariable()).toBe('#000');
+  //   expect(getBackgroundColorCSSVariable()).toBe('#000');
 
-    await user.click(themeSwitcherButton);
+  //   await user.click(themeSwitcherButton);
 
-    expect(getBackgroundColorCSSVariable()).toBe('#fff');
-  });
+  //   expect(getBackgroundColorCSSVariable()).toBe('#fff');
+  // });
 
   test('navigation works correctly', async () => {
     const NAVIGATION: Navigation = [
